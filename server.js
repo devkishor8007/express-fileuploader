@@ -11,24 +11,10 @@ app.get("/", async (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/", (req, res) => {
-  if (!req.files) {
-    return res.send("No file found");
-  }
+app.use("/", require("./router/image_router"));
 
-  let file = req.files.file;
-  let filename = file.name;
-  console.log(filename);
+const port = process.env.PORT || 5000;
 
-  file.mv("./images/" + filename, function (err) {
-    if (err) {
-      return res.send("error");
-    } else {
-      return res.redirect("/");
-    }
-  });
-});
-
-app.listen(3000, () => {
-  console.log("App listening on port 3000!");
+app.listen(port, () => {
+  console.log(`App listening on port ${port}`);
 });
